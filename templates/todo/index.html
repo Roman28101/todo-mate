@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>
+    TODO list
+  </h1>
+  <a href="{% url 'todo:task-create' %}" class="btn btn-primary">
+    Add task
+  </a>
+  </div>
+  {% if task_list %}
+      {% for task in task_list %}
+        <div class="d-flex justify-content-between align-items-start">
+          <ul class="list-unstyled mt-3">
+            <li>
+              <b>{{ task.content }} {% if task.task_status %}<span class="text-success">Done</span>{% else %}<span class="text-danger">Not done</span>{% endif %}</b>
+            </li>
+            <li>
+              <small>Created at: {{ task.date }} {% if task.deadline %}<span class="text-danger">Deadline: {{ task.deadline }}</span>{% endif %}</small>
+            </li>
+            <li>
+              <span class="text-muted">Tags: {% for tag in task.tags.all %}{{ tag }} {% endfor %}</span>
+              <span>
+                <a href="{% url 'todo:task-update' pk=task.id %}">
+                  Update
+                </a>
+              </span>
+            <span>
+                <a href="{% url 'todo:task-delete' pk=task.id %}">
+                  Delete
+                </a>
+              </span>
+            </li>
+          </ul>
+          {% if task.task_status %}
+            <form action="{% url 'todo:update-status' pk=task.pk %}" method="post" novalidate>
+              {% csrf_token %}
+              <input type="submit" value="Undo" class="btn btn-secondary link-to-page">
+            </form>
+          {% else%}
+          <form action="{% url 'todo:update-status' pk=task.pk%}" method="post" novalidate>
+            {% csrf_token %}
+            <input type="submit" value="Complete" class="btn btn-success link-to-page">
+          </form>
+          {% endif %}
+        </div>
+        <hr>
+    {% endfor %}
+
+  {% else %}
+    <p>There are no tasks in your list</p>
+  {% endif %}
+{% endblock %}
