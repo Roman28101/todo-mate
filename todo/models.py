@@ -25,4 +25,4 @@ class Task(models.Model):
         verbose_name_plural = "tasks"
 
     def __str__(self):
-        return f"{self.content} {self.date}"
+        return self.content
