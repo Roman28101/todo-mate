@@ -49,6 +49,7 @@ class TagDeleteView(generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("todo:tag-list")
 
+
 def toggle_change_status(request, pk):
     status = Task.objects.get(id=pk)
     status.task_status = not status.task_status
