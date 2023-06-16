@@ -34,13 +34,15 @@
             </li>
           </ul>
           {% if task.task_status %}
-            <a href="{% url 'todo:toggle_change_status' pk=task.id %}" class="btn btn-secondary">
-              Undo
-            </a>
-          {% else %}
-            <a href="{% url 'todo:toggle_change_status' pk=task.id %}" class="btn btn-success">
-              Complete
-            </a>
+            <form action="{% url 'todo:update-status' pk=task.pk %}" method="post" novalidate>
+              {% csrf_token %}
+              <input type="submit" value="Undo" class="btn btn-secondary link-to-page">
+            </form>
+          {% else%}
+          <form action="{% url 'todo:update-status' pk=task.pk%}" method="post" novalidate>
+            {% csrf_token %}
+            <input type="submit" value="Complete" class="btn btn-success link-to-page">
+          </form>
           {% endif %}
         </div>
         <hr>

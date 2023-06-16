@@ -6,10 +6,10 @@ from todo.views import (
     TagCreateView,
     TagUpdateView,
     TagDeleteView,
-    toggle_change_status,
     TaskCreateView,
     TaskUpdateView,
-    TaskDeleteView
+    TaskDeleteView,
+    TaskStatusUpdateView
 )
 
 
@@ -47,9 +47,9 @@ urlpatterns = [
         name="tag-delete",
     ),
     path(
-        "<int:pk>/toggle-assign/",
-        toggle_change_status,
-        name="toggle_change_status",
+        "<int:pk>/update_status/",
+        TaskStatusUpdateView.as_view(),
+        name="update-status"
     ),
 ]
 
